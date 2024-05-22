@@ -5,7 +5,9 @@ export const MainLayout = () => {
   return (
     <>
       <Header />
-      <Outlet />
+      <div style={{ marginTop: 100 }}>
+        <Outlet />
+      </div>
     </>
   )
 }
