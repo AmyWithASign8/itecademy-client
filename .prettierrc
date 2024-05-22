@@ -1,0 +1,8 @@
+{
+  "semi": false,
+  "singleQuote": true,
+  "arrowParens": "always",
+  "importOrderSeparation": true,
+  "tabWidth": 2,
+  "trailingComma": "none"
+}
