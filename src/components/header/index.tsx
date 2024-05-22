@@ -8,7 +8,7 @@ export const Header = () => {
     <Flex
       justify={'space-between'}
       align={'center'}
-      style={{ padding: 10, width: '100%' }}
+      style={{ padding: 10, width: '100%', zIndex: 2, top: 0 }}
       bg={'#000'}
       pos={'fixed'}
     >
@@ -19,8 +19,12 @@ export const Header = () => {
         </Flex>
       </Link>
       <Flex gap={'sm'}>
-        <Button>{'Войти'}</Button>
-        <Button>{'Зарегистрироваться'}</Button>
+        <Button component={Link} to={'/login'} color="gray">
+          {'Войти'}
+        </Button>
+        <Button component={Link} to={'/registration'} color="gray">
+          {'Зарегистрироваться'}
+        </Button>
       </Flex>
     </Flex>
   )
