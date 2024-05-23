@@ -24,6 +24,11 @@ class UserStore {
   public set setIsAuth(isAuth: boolean) {
     this.isAuth = isAuth
   }
+
+  public reset() {
+    this.user = undefined
+    this.isAuth = false
+  }
 }
 
 export default new UserStore()
