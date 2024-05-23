@@ -1,8 +1,10 @@
 import { makeAutoObservable } from 'mobx'
 import { User } from './user.interface'
 
-export class UserStore {
+class UserStore {
   private user: User | undefined = undefined
+  private isAuth: boolean = false
+
   constructor() {
     makeAutoObservable(this)
   }
@@ -14,4 +16,15 @@ export class UserStore {
   public set setUser(user: User | undefined) {
     this.user = user
   }
+
+  public get getIsAuth() {
+    return this.isAuth
+  }
+
+  public set setIsAuth(isAuth: boolean) {
+    this.isAuth = isAuth
+  }
 }
+
+export default new UserStore()
+
