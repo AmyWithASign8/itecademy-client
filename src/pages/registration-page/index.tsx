@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import UserStore from '../../common/store/user'
 import { User } from '../../common/store/user/user.interface'
+import { useNavigate } from 'react-router-dom'
 
 export const RegistrationPage = observer(() => {
   const {
@@ -15,25 +16,28 @@ export const RegistrationPage = observer(() => {
     formState: { errors }
   } = useForm<AuthDataType>()
 
-  const [loading, setIsLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
+  const navigate = useNavigate()
+
   const onSubmit: SubmitHandler<AuthDataType> = async (data) => {
-    setIsLoading(true)
+    setLoading(true)
+    setErrorMessage('')
     try {
       const response = await registration(data)
 
-      if ((response as ErrorResponse).message) {
-        setErrorMessage((response as ErrorResponse).message)
-      }
-
       UserStore.setUser = response as User
       UserStore.setIsAuth = true
+      navigate('/')
     } catch (error) {
       console.error(error)
+      if ((error as ErrorResponse).response.data.message) {
+        setErrorMessage((error as ErrorResponse).response.data.message)
+      }
     } finally {
-      setIsLoading(false)
+      setLoading(false)
     }
   }
 

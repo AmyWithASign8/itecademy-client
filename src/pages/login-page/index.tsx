@@ -1,7 +1,12 @@
-import { Button, Flex, PasswordInput, TextInput } from '@mantine/core'
+import { Alert, Button, Flex, PasswordInput, TextInput } from '@mantine/core'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { AuthDataType } from '../../common/types/auth.interface'
-import { IconAt, IconLock } from '@tabler/icons-react'
+import { AuthDataType, ErrorResponse } from '../../common/types/auth.interface'
+import { IconAlertCircle, IconAt, IconLock } from '@tabler/icons-react'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import UserStore from '../../common/store/user'
+import { login } from '../../common/services/user/user'
+import { User } from '../../common/store/user/user.interface'
 
 export const LoginPage = () => {
   const {
@@ -10,7 +15,30 @@ export const LoginPage = () => {
     formState: { errors }
   } = useForm<AuthDataType>()
 
-  const onSubmit: SubmitHandler<AuthDataType> = (data) => console.log(data)
+  const navigate = useNavigate()
+
+  const [loading, setLoading] = useState(false)
+
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const onSubmit: SubmitHandler<AuthDataType> = async (data) => {
+    setLoading(true)
+    setErrorMessage('')
+    try {
+      const response = await login(data)
+
+      UserStore.setUser = response as User
+      UserStore.setIsAuth = true
+      navigate('/')
+    } catch (error) {
+      console.error(error)
+      if ((error as ErrorResponse).response.data.message) {
+        setErrorMessage((error as ErrorResponse).response.data.message)
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -47,9 +75,18 @@ export const LoginPage = () => {
             placeholder="Введите ваш пароль"
             icon={<IconLock size="1rem" />}
           />
-          <Button fullWidth color={'gray'} type="submit">
+          <Button fullWidth color={'gray'} type="submit" loading={loading}>
             {'Войти'}
           </Button>
+          {errorMessage && (
+            <Alert
+              icon={<IconAlertCircle size="1rem" />}
+              title="Ошибка!"
+              color="red"
+            >
+              {'Неправильный логин или пароль'}
+            </Alert>
+          )}
         </Flex>
       </Flex>
     </form>

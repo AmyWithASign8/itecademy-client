@@ -1,7 +1,7 @@
 import { Button, Flex, Image, Menu, Modal, Text } from '@mantine/core'
 import LogoImg from '../../assets/logo1.png'
 import LogoText from '../../assets/image1.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import UserStore from '../../common/store/user'
 import {
@@ -13,11 +13,25 @@ import {
   IconUser
 } from '@tabler/icons-react'
 import { useState } from 'react'
+import { deleteAccount } from '../../common/services/user/user'
 
 export const Header = observer(() => {
   const { getIsAuth, getUser } = UserStore
 
+  const navigate = useNavigate()
+
   const [openConfirmModal, setOpenConfirmModal] = useState(false)
+
+  const logout = () => {
+    UserStore.reset()
+    navigate('/')
+  }
+
+  const deleteAcc = async () => {
+    await deleteAccount(getUser!.id)
+    UserStore.reset()
+    setOpenConfirmModal(false)
+  }
 
   return (
     <>
@@ -37,10 +51,16 @@ export const Header = observer(() => {
             leftIcon={<IconCircleCheck size={20} />}
             color="green"
             w={120}
+            onClick={deleteAcc}
           >
             {'Да'}
           </Button>
-          <Button leftIcon={<IconPlaystationX size={20} />} color="red" w={120}>
+          <Button
+            leftIcon={<IconPlaystationX size={20} />}
+            color="red"
+            w={120}
+            onClick={() => setOpenConfirmModal(false)}
+          >
             {'Нет'}
           </Button>
         </Flex>
@@ -73,10 +93,7 @@ export const Header = observer(() => {
               </Menu.Target>
               <Menu.Dropdown>
                 <Flex direction={'column'}>
-                  <Menu.Item
-                    icon={<IconLogout size={20} />}
-                    onClick={UserStore.reset}
-                  >
+                  <Menu.Item icon={<IconLogout size={20} />} onClick={logout}>
                     {'Выйти'}
                   </Menu.Item>
                   <Menu.Item

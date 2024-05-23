@@ -4,6 +4,10 @@ export type AuthDataType = {
 }
 
 export type ErrorResponse = {
-  status: number
-  message: string
+  response: {
+    data: {
+      status: number
+      message: string
+    }
+  }
 }

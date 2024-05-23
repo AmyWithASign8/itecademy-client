@@ -1,4 +1,4 @@
-export type CardData = {
+export type CourseType = {
   id: number
   title: string
   description: string
@@ -7,8 +7,4 @@ export type CardData = {
     userId: number
     serviceId: number
   }[]
-}
-
-export type CardProps = {
-  data: CardData
 }

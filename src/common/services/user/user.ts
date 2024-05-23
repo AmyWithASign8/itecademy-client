@@ -6,7 +6,7 @@ import { RegistrationUserResponse } from './user.interface'
 export const registration: (
   data: AuthDataType
 ) => Promise<RegistrationUserResponse | ErrorResponse> = async (data) => {
-  const response = await $http.post('user/create', {
+  const response = await $http.post('user/registration', {
     email: data.email,
     password: data.password,
     role: ROLE_WORD.USER
@@ -15,9 +15,17 @@ export const registration: (
   return response.data
 }
 
-export const login = async (data: AuthDataType) => {
-  return await $http.post('user/login', {
+export const login: (
+  data: AuthDataType
+) => Promise<RegistrationUserResponse | ErrorResponse> = async (data) => {
+  const response = await $http.post('user/login', {
     email: data.email,
     password: data.password
   })
+
+  return response.data
+}
+
+export const deleteAccount = async (id: number) => {
+  await $http.delete(`user/delete:${id}`)
 }

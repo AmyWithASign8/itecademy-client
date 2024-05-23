@@ -1,7 +1,11 @@
 import { Center, SimpleGrid, Text } from '@mantine/core'
 import { Card } from '../../components/card/card'
+import CourseStore from '../../common/store/course'
+import { observer } from 'mobx-react-lite'
 
-export const GeneralPage = () => {
+export const GeneralPage = observer(() => {
+  const { getCourses } = CourseStore
+
   return (
     <>
       <Center>
@@ -12,14 +16,10 @@ export const GeneralPage = () => {
         </Text>
       </Center>
       <SimpleGrid cols={4} mt={100} p={'md'}>
-        <Card
-          data={{
-            id: 1,
-            title: 'Frontend',
-            description: 'Тестовый курс по веб разработке, для начинающих.'
-          }}
-        />
+        {getCourses.map((course) => (
+          <Card data={course} />
+        ))}
       </SimpleGrid>
     </>
   )
-}
+})
