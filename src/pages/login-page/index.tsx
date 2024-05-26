@@ -7,8 +7,9 @@ import { useNavigate } from 'react-router-dom'
 import UserStore from '../../common/store/user'
 import { login } from '../../common/services/user/user'
 import { User } from '../../common/store/user/user.interface'
+import { LoginPageProps } from './login-page.interface'
 
-export const LoginPage = () => {
+export const LoginPage = ({ onLogin }: LoginPageProps) => {
   const {
     register,
     handleSubmit,
@@ -37,6 +38,7 @@ export const LoginPage = () => {
       }
     } finally {
       setLoading(false)
+      onLogin?.()
     }
   }
 

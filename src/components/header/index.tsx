@@ -80,7 +80,12 @@ export const Header = observer(() => {
         </Link>
         <Flex gap={'sm'}>
           {getUser?.role === 'admin' && (
-            <Button color="gray" leftIcon={<IconSettings />}>
+            <Button
+              color="gray"
+              leftIcon={<IconSettings />}
+              component={Link}
+              to={'/admin-panel'}
+            >
               {'Админ. панель'}
             </Button>
           )}
@@ -96,13 +101,15 @@ export const Header = observer(() => {
                   <Menu.Item icon={<IconLogout size={20} />} onClick={logout}>
                     {'Выйти'}
                   </Menu.Item>
-                  <Menu.Item
-                    color="red"
-                    icon={<IconTrash size={20} />}
-                    onClick={() => setOpenConfirmModal(true)}
-                  >
-                    {'Удалить аккаунт'}
-                  </Menu.Item>
+                  {getUser?.role === 'user' && (
+                    <Menu.Item
+                      color="red"
+                      icon={<IconTrash size={20} />}
+                      onClick={() => setOpenConfirmModal(true)}
+                    >
+                      {'Удалить аккаунт'}
+                    </Menu.Item>
+                  )}
                 </Flex>
               </Menu.Dropdown>
             </Menu>
