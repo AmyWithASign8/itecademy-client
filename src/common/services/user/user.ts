@@ -29,3 +29,11 @@ export const login: (
 export const deleteAccount = async (id: number) => {
   await $http.delete(`user/delete:${id}`)
 }
+
+export const getAllUsers: () => Promise<
+  RegistrationUserResponse[]
+> = async () => {
+  const response = await $http.get('user')
+
+  return response.data
+}
