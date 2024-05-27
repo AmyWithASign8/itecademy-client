@@ -52,12 +52,19 @@ export const Card = observer(({ data }: CardProps) => {
         title={'Карточка курса'}
         size={'xl'}
       >
-        <Flex direction={'column'}>
+        <Flex direction={'column'} gap={'xl'}>
           <Text fw={'bold'} size={'lg'}>
             {title}
           </Text>
-          <Text fw={'bold'} style={{ wordWrap: 'break-word' }}>
-            {description}
+          <Text
+            fw={'bold'}
+            style={{
+              wordWrap: 'break-word',
+              overflow: 'auto'
+            }}
+            mah={600}
+          >
+            {description.length ? description : 'Описание отсутствует'}
           </Text>
           {getIsAuth && currentData ? (
             <Button leftIcon={<IconWriting />} color="green" fullWidth disabled>
@@ -85,9 +92,12 @@ export const Card = observer(({ data }: CardProps) => {
         <MantineCard.Section p={'md'}>
           <Text
             fw={'bold'}
-            style={{ width: 400, textOverflow: 'ellipsis', overflow: 'hidden' }}
+            style={{ wordWrap: 'break-word' }}
+            lineClamp={4}
+            h={100}
+            size={'sm'}
           >
-            {description}
+            {description.length ? description : 'Описание отсутствует'}
           </Text>
         </MantineCard.Section>
         <Button

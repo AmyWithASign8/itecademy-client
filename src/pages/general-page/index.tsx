@@ -1,4 +1,12 @@
-import { Alert, Button, Center, Flex, SimpleGrid, Text } from '@mantine/core'
+import {
+  Alert,
+  Button,
+  Center,
+  Flex,
+  SimpleGrid,
+  Tabs,
+  Text
+} from '@mantine/core'
 import { Card } from '../../components/card/card'
 import CourseStore from '../../common/store/course'
 import UserStore from '../../common/store/user'
@@ -8,7 +16,13 @@ import { Link } from 'react-router-dom'
 
 export const GeneralPage = observer(() => {
   const { getCourses } = CourseStore
-  const { getIsAuth } = UserStore
+  const { getIsAuth, getUser } = UserStore
+
+  const myCourses = getCourses.filter((course) =>
+    course.userServices.find(
+      (userService) => userService.userId === getUser?.id
+    )
+  )
 
   return (
     <>
@@ -49,11 +63,39 @@ export const GeneralPage = observer(() => {
           </Alert>
         </Center>
       )}
-      <SimpleGrid cols={4} mt={100} p={'md'}>
-        {getCourses.map((course) => (
-          <Card data={course} />
-        ))}
-      </SimpleGrid>
+
+      {getIsAuth ? (
+        <Tabs defaultValue="all-courses" mt={50} variant="pills">
+          <Tabs.List position="center">
+            <Tabs.Tab value="all-courses">Все курсы</Tabs.Tab>
+
+            <Tabs.Tab value="my-courses" disabled={!myCourses.length}>
+              Мои курсы
+            </Tabs.Tab>
+          </Tabs.List>
+
+          <Tabs.Panel value="all-courses">
+            <SimpleGrid cols={4} p={'md'}>
+              {getCourses.map((course) => (
+                <Card data={course} />
+              ))}
+            </SimpleGrid>
+          </Tabs.Panel>
+          <Tabs.Panel value="my-courses">
+            <SimpleGrid cols={4} p={'md'}>
+              {myCourses.map((course) => (
+                <Card data={course} />
+              ))}
+            </SimpleGrid>
+          </Tabs.Panel>
+        </Tabs>
+      ) : (
+        <SimpleGrid cols={4} p={'md'} mt={100}>
+          {getCourses.map((course) => (
+            <Card data={course} />
+          ))}
+        </SimpleGrid>
+      )}
     </>
   )
 })

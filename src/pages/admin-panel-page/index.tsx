@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite'
 import { CreateCourse } from './components/create-course'
 import { EditCourse } from './components/edit-course'
 import { DeleteCourse } from './components/delete-course'
+import { ViewSubscribes } from './components/view-subscribes'
 
 export const AdminPanelPage = observer(() => {
   return (
@@ -12,6 +13,7 @@ export const AdminPanelPage = observer(() => {
           <Tabs.Tab value="gallery">Создать курс</Tabs.Tab>
           <Tabs.Tab value="messages">Редактировать курс</Tabs.Tab>
           <Tabs.Tab value="settings">Удалить курс</Tabs.Tab>
+          <Tabs.Tab value="subscribes">Просмотр записей</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="gallery" pt="xs">
@@ -24,6 +26,10 @@ export const AdminPanelPage = observer(() => {
 
         <Tabs.Panel value="settings" pt="xs">
           <DeleteCourse />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="subscribes" pt="xs">
+          <ViewSubscribes />
         </Tabs.Panel>
       </Tabs>
     </Center>

@@ -1,4 +1,4 @@
-import { Button, Flex, TextInput } from '@mantine/core'
+import { Alert, Button, Flex, TextInput, Textarea, Text } from '@mantine/core'
 import { useForm } from 'react-hook-form'
 import { CreateCourseData } from './create-course.interface'
 import {
@@ -6,6 +6,8 @@ import {
   getAllCourses
 } from '../../../../common/services/course/course'
 import { useState } from 'react'
+import { IconAlertCircle } from '@tabler/icons-react'
+import { ErrorResponse } from '../../../../common/types/auth.interface'
 
 export const CreateCourse = () => {
   const {
@@ -16,9 +18,25 @@ export const CreateCourse = () => {
 
   const [isLoading, setIsLoading] = useState(false)
 
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+  const [titleInputValue, setTitleInputValue] = useState('')
+  const [descriptionInputValue, setDescriptionInputValue] = useState('')
+
   const handleCreateCourse = async (data: CreateCourseData) => {
     setIsLoading(true)
-    await createCourse(data).finally(() => setIsLoading(false))
+    try {
+      await createCourse(data)
+      setErrorMessage(null)
+      setTitleInputValue('')
+      setDescriptionInputValue('')
+    } catch (error) {
+      if ((error as ErrorResponse).response.data.message) {
+        setErrorMessage((error as ErrorResponse).response.data.message)
+      }
+    } finally {
+      setIsLoading(false)
+    }
     await getAllCourses()
   }
 
@@ -31,15 +49,31 @@ export const CreateCourse = () => {
             required: 'Название обязательно для заполнения'
           })}
           error={errors.title?.message}
+          value={titleInputValue}
+          onChange={(e) => setTitleInputValue(e.target.value)}
         />
-        <TextInput
+        <Textarea
           label={'описание курса'}
           {...register('description')}
           error={errors.description?.message}
+          autosize
+          maxRows={25}
+          value={descriptionInputValue}
+          onChange={(e) => setDescriptionInputValue(e.target.value)}
         />
         <Button fullWidth type="submit" loading={isLoading}>
           Создать
         </Button>
+        {errorMessage && (
+          <Alert
+            mt={100}
+            icon={<IconAlertCircle size="1rem" />}
+            title="Ошибка!"
+            color="red"
+          >
+            <Text>{errorMessage}</Text>
+          </Alert>
+        )}
       </Flex>
     </form>
   )
