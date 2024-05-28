@@ -19,7 +19,10 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { AuthModal } from '../../components/auth-modal'
 import { useForm } from 'react-hook-form'
-import { createReview } from '../../common/services/review/review'
+import {
+  createReview,
+  getAllReviews
+} from '../../common/services/review/review'
 import { ReviewCard } from '../../components/review-card'
 
 export const GeneralPage = observer(() => {
@@ -53,6 +56,7 @@ export const GeneralPage = observer(() => {
 
   const sendReview = async (data: { review: string }) => {
     await createReview({ review: data.review, userId: getUser!.id })
+    await getAllReviews()
   }
 
   return (
@@ -128,7 +132,7 @@ export const GeneralPage = observer(() => {
         </SimpleGrid>
       )}
       <Center>
-        <Flex direction={'column'}>
+        <Flex direction={'column'} gap={'md'}>
           {getReviews.map((review) => (
             <ReviewCard data={review} />
           ))}
