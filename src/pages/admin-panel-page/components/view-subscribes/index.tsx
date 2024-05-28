@@ -42,33 +42,39 @@ export const ViewSubscribes = observer(() => {
   return (
     <Center>
       <Flex gap={'lg'} direction={'column'} w={500}>
-        {filteredCourses.map(({ id, title, userServices }) => (
-          <>
-            <Button
-              color="gray"
-              leftIcon={<IconBook />}
-              fullWidth
-              onClick={() =>
-                setIsOpenCollapse((prev) => (prev !== id ? id : null))
-              }
-            >
-              {title}
-            </Button>
+        {filteredCourses.length ? (
+          filteredCourses.map(({ id, title, userServices }) => (
+            <>
+              <Button
+                color="gray"
+                leftIcon={<IconBook />}
+                fullWidth
+                onClick={() =>
+                  setIsOpenCollapse((prev) => (prev !== id ? id : null))
+                }
+              >
+                {title}
+              </Button>
 
-            <Collapse in={isOpenCollapse === id}>
-              <SimpleGrid cols={2}>
-                {userServices.map((data) => (
-                  <Box bg={'gray'} p={3} style={{ borderRadius: 10 }}>
-                    <Flex align={'center'} justify={'center'} gap={4}>
-                      <IconUser size={20} />
-                      <Text>{getCurrentUser(data.userId)?.email}</Text>
-                    </Flex>
-                  </Box>
-                ))}
-              </SimpleGrid>
-            </Collapse>
-          </>
-        ))}
+              <Collapse in={isOpenCollapse === id}>
+                <SimpleGrid cols={2}>
+                  {userServices.map((data) => (
+                    <Box bg={'gray'} p={3} style={{ borderRadius: 10 }}>
+                      <Flex align={'center'} justify={'center'} gap={4}>
+                        <IconUser size={20} />
+                        <Text>{getCurrentUser(data.userId)?.email}</Text>
+                      </Flex>
+                    </Box>
+                  ))}
+                </SimpleGrid>
+              </Collapse>
+            </>
+          ))
+        ) : (
+          <Center>
+            <Text>Нет ни одной записи</Text>
+          </Center>
+        )}
       </Flex>
     </Center>
   )

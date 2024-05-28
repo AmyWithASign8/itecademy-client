@@ -1,4 +1,4 @@
-import { Button, Flex, Select, TextInput } from '@mantine/core'
+import { Button, Flex, Select, TextInput, Textarea } from '@mantine/core'
 import { observer } from 'mobx-react-lite'
 import CourseStore from '../../../../common/store/course'
 import { useEffect, useState } from 'react'
@@ -23,20 +23,28 @@ export const EditCourse = observer(() => {
 
   const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
 
-  const handleEditCourse = async (data: EditCourseData) => {
+  const [titleValue, setTitleValue] = useState('')
+  const [descriptionValue, setDescriptionValue] = useState('')
+  const [videoLinkInputValue, setVideoLinkInputValue] = useState('')
+
+  const handleEditCourse = async () => {
     if (selectedCourse) {
       setIsLoading(true)
-      await updateCourse({ ...data, id: selectedCourse }).finally(() =>
+      await updateCourse({
+        title: titleValue,
+        description: descriptionValue,
+        videoLink: videoLinkInputValue,
+        id: selectedCourse
+      }).finally(() => {
         setIsLoading(false)
-      )
+        setCurrentCourse(null)
+        setSelectedCourse(null)
+      })
       await getAllCourses()
     }
   }
 
   const [currentCourse, setCurrentCourse] = useState<CourseType | null>(null)
-
-  const [titleValue, setTitleValue] = useState('')
-  const [descriptionValue, setDescriptionValue] = useState('')
 
   useEffect(() => {
     setCurrentCourse(
@@ -45,6 +53,7 @@ export const EditCourse = observer(() => {
     if (currentCourse) {
       setTitleValue(currentCourse.title)
       setDescriptionValue(currentCourse.description)
+      setVideoLinkInputValue(currentCourse.videoLink)
     }
   }, [selectedCourse, getCourses, currentCourse])
 
@@ -63,19 +72,26 @@ export const EditCourse = observer(() => {
           <Flex direction={'column'} gap={'lg'}>
             <TextInput
               label={'название курса'}
-              {...register('title', {
-                required: 'Название обязательно для заполнения'
-              })}
+              {...register('title')}
               error={errors.title?.message}
               value={titleValue}
               onChange={(e) => setTitleValue(e.target.value)}
             />
-            <TextInput
+            <Textarea
               label={'описание курса'}
               {...register('description')}
               error={errors.description?.message}
               value={descriptionValue}
               onChange={(e) => setDescriptionValue(e.target.value)}
+              autosize
+              maxRows={25}
+            />
+            <TextInput
+              label={'ссылка на видео'}
+              {...register('videoLink')}
+              error={errors.videoLink?.message}
+              value={videoLinkInputValue}
+              onChange={(e) => setVideoLinkInputValue(e.target.value)}
             />
             <Button fullWidth type="submit" loading={isLoading}>
               Обновить

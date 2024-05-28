@@ -16,6 +16,10 @@ export const subscribe = async (data: SubscribeDataRequest) => {
   await $http.post('services/subscribe', data)
 }
 
+export const unsubscribe = async (id: number) => {
+  await $http.delete(`services/unsubscribe:${id}`)
+}
+
 export const createCourse = async (data: CreateCourseRequest) => {
   await $http.post('services/create', data)
 }

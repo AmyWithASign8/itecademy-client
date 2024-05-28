@@ -6,10 +6,12 @@ export type SubscribeDataRequest = {
 export type CreateCourseRequest = {
   title: string
   description: string
+  videoLink: string
 }
 
 export type UpdateCourseRequest = {
   id: number
   title: string
   description: string
+  videoLink: string
 }

@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite'
 import UserStore from '../../common/store/user'
 import {
   IconCircleCheck,
+  IconInfoCircle,
   IconLogout,
   IconPlaystationX,
   IconSettings,
@@ -79,6 +80,14 @@ export const Header = observer(() => {
           </Flex>
         </Link>
         <Flex gap={'sm'}>
+          <Button
+            color="gray"
+            leftIcon={<IconInfoCircle />}
+            component={Link}
+            to={'/about-us'}
+          >
+            О нас
+          </Button>
           {getUser?.role === 'admin' && (
             <Button
               color="gray"
@@ -86,7 +95,7 @@ export const Header = observer(() => {
               component={Link}
               to={'/admin-panel'}
             >
-              {'Админ. панель'}
+              Админ. панель
             </Button>
           )}
           {getIsAuth ? (
@@ -99,7 +108,7 @@ export const Header = observer(() => {
               <Menu.Dropdown>
                 <Flex direction={'column'}>
                   <Menu.Item icon={<IconLogout size={20} />} onClick={logout}>
-                    {'Выйти'}
+                    Выйти
                   </Menu.Item>
                   {getUser?.role === 'user' && (
                     <Menu.Item
@@ -107,7 +116,7 @@ export const Header = observer(() => {
                       icon={<IconTrash size={20} />}
                       onClick={() => setOpenConfirmModal(true)}
                     >
-                      {'Удалить аккаунт'}
+                      Удалить аккаунт
                     </Menu.Item>
                   )}
                 </Flex>
@@ -116,10 +125,10 @@ export const Header = observer(() => {
           ) : (
             <>
               <Button component={Link} to={'/login'} color="gray">
-                {'Войти'}
+                Войти
               </Button>
               <Button component={Link} to={'/registration'} color="gray">
-                {'Зарегистрироваться'}
+                Зарегистрироваться
               </Button>
             </>
           )}

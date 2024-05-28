@@ -22,6 +22,7 @@ export const CreateCourse = () => {
 
   const [titleInputValue, setTitleInputValue] = useState('')
   const [descriptionInputValue, setDescriptionInputValue] = useState('')
+  const [videoLinkInputValue, setVideoLinkInputValue] = useState('')
 
   const handleCreateCourse = async (data: CreateCourseData) => {
     setIsLoading(true)
@@ -30,6 +31,7 @@ export const CreateCourse = () => {
       setErrorMessage(null)
       setTitleInputValue('')
       setDescriptionInputValue('')
+      setVideoLinkInputValue('')
     } catch (error) {
       if ((error as ErrorResponse).response.data.message) {
         setErrorMessage((error as ErrorResponse).response.data.message)
@@ -60,6 +62,19 @@ export const CreateCourse = () => {
           maxRows={25}
           value={descriptionInputValue}
           onChange={(e) => setDescriptionInputValue(e.target.value)}
+        />
+        <TextInput
+          label={'ссылка на видео'}
+          {...register('videoLink', {
+            pattern: {
+              // eslint-disable-next-line no-useless-escape
+              value: /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/,
+              message: 'неверный формат'
+            }
+          })}
+          error={errors.videoLink?.message}
+          value={videoLinkInputValue}
+          onChange={(e) => setVideoLinkInputValue(e.target.value)}
         />
         <Button fullWidth type="submit" loading={isLoading}>
           Создать
