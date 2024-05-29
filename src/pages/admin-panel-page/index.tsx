@@ -9,7 +9,7 @@ import { AdministrationReviews } from './components/administration-reviews'
 export const AdminPanelPage = observer(() => {
   return (
     <Center>
-      <Tabs defaultValue="gallery" w={'50%'}>
+      <Tabs defaultValue="gallery" w={'80%'}>
         <Tabs.List position="center" grow>
           <Tabs.Tab value="gallery">Создать курс</Tabs.Tab>
           <Tabs.Tab value="messages">Редактировать курс</Tabs.Tab>

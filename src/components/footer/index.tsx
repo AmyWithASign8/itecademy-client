@@ -11,7 +11,7 @@ export const Footer = () => {
           href={'tel:+79999999999'}
           variant="subtle"
         >
-          +7 (999) 99-99
+          +7 (999) 999-99-99
         </Button>
         <Button
           color="gray"
