@@ -19,6 +19,13 @@ function App() {
   useEffect(() => {
     getAllCourses()
     getAllReviews()
+
+    const interval = setInterval(() => {
+      getAllCourses()
+      getAllReviews()
+    }, 60_000)
+
+    return () => clearInterval(interval)
   }, [])
 
   return (

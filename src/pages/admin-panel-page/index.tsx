@@ -4,6 +4,7 @@ import { CreateCourse } from './components/create-course'
 import { EditCourse } from './components/edit-course'
 import { DeleteCourse } from './components/delete-course'
 import { ViewSubscribes } from './components/view-subscribes'
+import { AdministrationReviews } from './components/administration-reviews'
 
 export const AdminPanelPage = observer(() => {
   return (
@@ -14,6 +15,7 @@ export const AdminPanelPage = observer(() => {
           <Tabs.Tab value="messages">Редактировать курс</Tabs.Tab>
           <Tabs.Tab value="settings">Удалить курс</Tabs.Tab>
           <Tabs.Tab value="subscribes">Просмотр записей</Tabs.Tab>
+          <Tabs.Tab value="reviews">Администрирование отзывов</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="gallery" pt="xs">
@@ -30,6 +32,10 @@ export const AdminPanelPage = observer(() => {
 
         <Tabs.Panel value="subscribes" pt="xs">
           <ViewSubscribes />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="reviews" pt="xs">
+          <AdministrationReviews />
         </Tabs.Panel>
       </Tabs>
     </Center>

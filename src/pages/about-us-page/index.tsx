@@ -3,7 +3,7 @@ import { Box, Center, List, Text, Title } from '@mantine/core'
 export const AboutUsPage = () => {
   return (
     <Center>
-      <Box w={900}>
+      <Box w={900} bg={'rgb(0, 0, 0, 0.5)'} p={20} style={{ borderRadius: 10 }}>
         <Title order={2}>Добро пожаловать на ITECADEMY!</Title>
         <Text>
           Мы рады приветствовать вас на нашем сайте, где каждый желающий может

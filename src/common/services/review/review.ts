@@ -11,3 +11,7 @@ export const getAllReviews = async () => {
 
   ReviewStore.setReviews = response.data
 }
+
+export const deleteReview = async (id: number) => {
+  await $http.delete(`/review/delete:${id}`)
+}

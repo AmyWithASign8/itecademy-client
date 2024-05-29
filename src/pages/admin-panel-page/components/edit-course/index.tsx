@@ -65,6 +65,7 @@ export const EditCourse = observer(() => {
           value: String(course.id),
           label: course.title
         }))}
+        value={String(selectedCourse)}
         onChange={(course) => setSelectedCourse(Number(course))}
       />
       {currentCourse && selectedCourse && (
@@ -72,7 +73,9 @@ export const EditCourse = observer(() => {
           <Flex direction={'column'} gap={'lg'}>
             <TextInput
               label={'название курса'}
-              {...register('title')}
+              {...register('title', {
+                required: 'Поле обязательно для заполнения'
+              })}
               error={errors.title?.message}
               value={titleValue}
               onChange={(e) => setTitleValue(e.target.value)}

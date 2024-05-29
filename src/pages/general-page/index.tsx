@@ -7,14 +7,15 @@ import {
   SimpleGrid,
   Tabs,
   Text,
-  TextInput
+  Textarea,
+  Title
 } from '@mantine/core'
 import { Card } from '../../components/card/card'
 import CourseStore from '../../common/store/course'
 import UserStore from '../../common/store/user'
 import ReviewStore from '../../common/store/review'
 import { observer } from 'mobx-react-lite'
-import { IconAlertCircle } from '@tabler/icons-react'
+import { IconAlertCircle, IconHeartFilled } from '@tabler/icons-react'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { AuthModal } from '../../components/auth-modal'
@@ -24,6 +25,7 @@ import {
   getAllReviews
 } from '../../common/services/review/review'
 import { ReviewCard } from '../../components/review-card'
+import { notifications } from '@mantine/notifications'
 
 export const GeneralPage = observer(() => {
   const {
@@ -45,6 +47,8 @@ export const GeneralPage = observer(() => {
   const [isOpenReviewModal, setIsOpenReviewModal] = useState(false)
   const [isOpenAuthModal, setIsOpenAuthModal] = useState(false)
 
+  const [reviewInput, setReviewInput] = useState('')
+
   const handleCreateReview = () => {
     if (!getIsAuth) {
       setIsOpenAuthModal(true)
@@ -55,7 +59,18 @@ export const GeneralPage = observer(() => {
   }
 
   const sendReview = async (data: { review: string }) => {
-    await createReview({ review: data.review, userId: getUser!.id })
+    await createReview({ review: data.review, userId: getUser!.id }).finally(
+      () => {
+        setReviewInput('')
+        setIsOpenReviewModal(false)
+        notifications.show({
+          title: 'Спасибо!',
+          message: 'Спасибо за ваш отзыв!',
+          color: 'gray',
+          icon: <IconHeartFilled color="red" />
+        })
+      }
+    )
     await getAllReviews()
   }
 
@@ -131,13 +146,17 @@ export const GeneralPage = observer(() => {
           ))}
         </SimpleGrid>
       )}
-      <Center>
-        <Flex direction={'column'} gap={'md'}>
-          {getReviews.map((review) => (
-            <ReviewCard data={review} />
-          ))}
-        </Flex>
-      </Center>
+
+      {getReviews.length ? (
+        <Center>
+          <SimpleGrid mt={20}>
+            <Title order={2}>Отзывы:</Title>
+            {getReviews.map((review) => (
+              <ReviewCard data={review} />
+            ))}
+          </SimpleGrid>
+        </Center>
+      ) : null}
       <Center mt={10}>
         <Button color="gray" onClick={handleCreateReview} size="lg">
           Оставить отзыв
@@ -155,13 +174,17 @@ export const GeneralPage = observer(() => {
       >
         <form onSubmit={handleSubmit(sendReview)}>
           <Flex direction={'column'} gap={'xl'}>
-            <TextInput
+            <Textarea
               label={'сообщение'}
               placeholder="введите сообщение"
               {...register('review', {
                 required: 'обязательно для заполнения'
               })}
               error={errors.review?.message}
+              autosize
+              maxRows={20}
+              value={reviewInput}
+              onChange={(e) => setReviewInput(e.target.value)}
             />
             <Button color={'green'} fullWidth type="submit">
               Отправить
