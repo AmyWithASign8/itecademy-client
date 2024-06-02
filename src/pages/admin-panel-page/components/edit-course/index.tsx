@@ -36,7 +36,7 @@ export const EditCourse = observer(() => {
         description: descriptionValue,
         videoLink: videoLinkInputValue,
         id: selectedCourse,
-        teacher: selecteTeacher ?? ''
+        teacher: selectedTeacher ?? ''
       }).finally(() => {
         setIsLoading(false)
         setCurrentCourse(null)
@@ -48,7 +48,7 @@ export const EditCourse = observer(() => {
   }
 
   const [currentCourse, setCurrentCourse] = useState<CourseType | null>(null)
-  const [selecteTeacher, setSelectedTeacher] = useState<string | null>(null)
+  const [selectedTeacher, setSelectedTeacher] = useState<string | null>(null)
 
   useEffect(() => {
     setCurrentCourse(
@@ -109,7 +109,7 @@ export const EditCourse = observer(() => {
               label={'Выберите учителя'}
               data={TEACHERS_SELECT_DATA}
               size="md"
-              value={selecteTeacher}
+              value={selectedTeacher}
               onChange={(value) => setSelectedTeacher(value)}
             />
             <Button fullWidth type="submit" loading={isLoading} size="md">
