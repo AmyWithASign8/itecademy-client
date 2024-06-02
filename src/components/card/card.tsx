@@ -67,19 +67,9 @@ export const Card = observer(({ data }: CardProps) => {
         size={'xl'}
       >
         <Flex direction={'column'} gap={'xl'}>
-          <Flex justify={'space-between'} align={'center'}>
-            <Title
-              order={2}
-              style={{ wordWrap: 'break-word', overflow: 'auto' }}
-            >
-              {title}
-            </Title>
-            {teacher && teacher.length && (
-              <Text size={'lg'} fw={'bold'}>
-                Преподаватель: {teacher}
-              </Text>
-            )}
-          </Flex>
+          <Title order={2} style={{ wordWrap: 'break-word', overflow: 'auto' }}>
+            {title}
+          </Title>
           <Text
             fw={'bold'}
             style={{
@@ -91,6 +81,11 @@ export const Card = observer(({ data }: CardProps) => {
           >
             {description.length ? description : 'Описание отсутствует'}
           </Text>
+          {teacher && teacher.length && (
+            <Text size={'lg'} fw={'bold'} underline>
+              Преподаватель: {teacher}
+            </Text>
+          )}
           {data.videoLink && data.videoLink.length && (
             <Center>
               <iframe
