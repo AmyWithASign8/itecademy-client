@@ -68,7 +68,12 @@ export const Card = observer(({ data }: CardProps) => {
       >
         <Flex direction={'column'} gap={'xl'}>
           <Flex justify={'space-between'} align={'center'}>
-            <Title order={2}>{title}</Title>
+            <Title
+              order={2}
+              style={{ wordWrap: 'break-word', overflow: 'auto' }}
+            >
+              {title}
+            </Title>
             {teacher && teacher.length && (
               <Text size={'lg'} fw={'bold'}>
                 Преподаватель: {teacher}
@@ -124,30 +129,49 @@ export const Card = observer(({ data }: CardProps) => {
           )}
         </Flex>
       </Modal>
-      <MantineCard shadow="sm" padding="lg" radius="md" withBorder>
+      <MantineCard
+        shadow="sm"
+        padding="lg"
+        radius="md"
+        withBorder
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between'
+        }}
+        h={340}
+      >
         <MantineCard.Section p={'sm'}>
-          <Title order={3}>{title}</Title>
+          <Title
+            order={3}
+            style={{ wordWrap: 'break-word' }}
+            mah={200}
+            lineClamp={4}
+          >
+            {title}
+          </Title>
         </MantineCard.Section>
         <MantineCard.Section p={'md'}>
           <Text
             fw={'bold'}
             style={{ wordWrap: 'break-word' }}
             lineClamp={4}
-            h={100}
             size={'lg'}
           >
             {description.length ? description : 'Описание отсутствует'}
           </Text>
         </MantineCard.Section>
-        <Button
-          color="gray"
-          fullWidth
-          // disabled={!getIsAuth}
-          onClick={() => setIsOpenFullCardModal(true)}
-          size="md"
-        >
-          {'Открыть'}
-        </Button>
+        <MantineCard.Section>
+          <Button
+            color="gray"
+            fullWidth
+            // disabled={!getIsAuth}
+            onClick={() => setIsOpenFullCardModal(true)}
+            size="md"
+          >
+            {'Открыть'}
+          </Button>
+        </MantineCard.Section>
       </MantineCard>
     </>
   )
