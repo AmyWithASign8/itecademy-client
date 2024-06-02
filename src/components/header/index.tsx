@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import UserStore from '../../common/store/user'
 import {
+  IconBrain,
   IconCircleCheck,
   IconInfoCircle,
   IconLogout,
@@ -82,9 +83,19 @@ export const Header = observer(() => {
         <Flex gap={'sm'}>
           <Button
             color="gray"
+            leftIcon={<IconBrain />}
+            component={Link}
+            to={'/teachers'}
+            size="md"
+          >
+            Преподаватели
+          </Button>
+          <Button
+            color="gray"
             leftIcon={<IconInfoCircle />}
             component={Link}
             to={'/about-us'}
+            size="md"
           >
             О нас
           </Button>
@@ -94,6 +105,7 @@ export const Header = observer(() => {
               leftIcon={<IconSettings />}
               component={Link}
               to={'/admin-panel'}
+              size="md"
             >
               Админ. панель
             </Button>
@@ -101,22 +113,26 @@ export const Header = observer(() => {
           {getIsAuth ? (
             <Menu>
               <Menu.Target>
-                <Button leftIcon={<IconUser size={20} />} color={'gray'}>
+                <Button
+                  leftIcon={<IconUser size={20} />}
+                  color={'gray'}
+                  size="md"
+                >
                   {getUser?.email}
                 </Button>
               </Menu.Target>
               <Menu.Dropdown>
                 <Flex direction={'column'}>
-                  <Menu.Item icon={<IconLogout size={20} />} onClick={logout}>
-                    Выйти
+                  <Menu.Item icon={<IconLogout />} onClick={logout}>
+                    <Text size="md">Выйти</Text>
                   </Menu.Item>
                   {getUser?.role === 'user' && (
                     <Menu.Item
                       color="red"
-                      icon={<IconTrash size={20} />}
+                      icon={<IconTrash />}
                       onClick={() => setOpenConfirmModal(true)}
                     >
-                      Удалить аккаунт
+                      <Text size={'md'}>Удалить аккаунт</Text>
                     </Menu.Item>
                   )}
                 </Flex>
@@ -124,10 +140,15 @@ export const Header = observer(() => {
             </Menu>
           ) : (
             <>
-              <Button component={Link} to={'/login'} color="gray">
+              <Button component={Link} to={'/login'} color="gray" size="md">
                 Войти
               </Button>
-              <Button component={Link} to={'/registration'} color="gray">
+              <Button
+                component={Link}
+                to={'/registration'}
+                color="gray"
+                size="md"
+              >
                 Зарегистрироваться
               </Button>
             </>

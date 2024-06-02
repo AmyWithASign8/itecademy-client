@@ -52,6 +52,7 @@ export const ViewSubscribes = observer(() => {
                 onClick={() =>
                   setIsOpenCollapse((prev) => (prev !== id ? id : null))
                 }
+                size="lg"
               >
                 {title}
               </Button>
@@ -59,10 +60,12 @@ export const ViewSubscribes = observer(() => {
               <Collapse in={isOpenCollapse === id}>
                 <SimpleGrid cols={2}>
                   {userServices.map((data) => (
-                    <Box bg={'gray'} p={3} style={{ borderRadius: 10 }}>
+                    <Box bg={'indigo'} p={3} style={{ borderRadius: 10 }}>
                       <Flex align={'center'} justify={'center'} gap={4}>
-                        <IconUser size={20} />
-                        <Text>{getCurrentUser(data.userId)?.email}</Text>
+                        <IconUser />
+                        <Text size={'lg'}>
+                          {getCurrentUser(data.userId)?.email}
+                        </Text>
                       </Flex>
                     </Box>
                   ))}

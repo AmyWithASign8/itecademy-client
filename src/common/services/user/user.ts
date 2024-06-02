@@ -12,7 +12,9 @@ export const registration: (
     role: ROLE_WORD.USER
   })
 
-  return response.data
+  const user = await login(response.data)
+
+  return user
 }
 
 export const login: (

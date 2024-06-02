@@ -77,35 +77,49 @@ export const GeneralPage = observer(() => {
   return (
     <>
       <Center>
-        <Text align="center" size={'xl'} fw={'bold'} w={700}>
+        <Title
+          order={2}
+          align="center"
+          w={700}
+          bg={'rgb(0, 0, 0, 0.5)'}
+          p={20}
+          style={{ borderRadius: 10 }}
+        >
           ITECADEMY гарантирует трудоустройство студентам, которые освоили
           программу обучения. Если у вас не получится найти работу, мы вернем
           деньги за программу
-        </Text>
+        </Title>
       </Center>
       {!getIsAuth && (
         <Center>
           <Alert
             mt={100}
-            icon={<IconAlertCircle size="1rem" />}
+            icon={<IconAlertCircle />}
             title="Внимание!"
-            color="gray"
+            color="cyan"
             w={'50%'}
           >
-            <Text>
+            <Text size={'lg'}>
               Авторизованный пользователь получает повышенную безопасность,
               доступ к персонализированному контенту и функциям. Это улучшает
               удобство и качество взаимодействия с платформой.
             </Text>
             <Flex justify={'space-around'} mt={30}>
-              <Button w={'35%'} component={Link} to={'/login'} color="gray">
+              <Button
+                w={'35%'}
+                component={Link}
+                to={'/login'}
+                color="cyan"
+                size="md"
+              >
                 {'Войти'}
               </Button>
               <Button
                 w={'35%'}
                 component={Link}
                 to={'/registration'}
-                color="gray"
+                color="cyan"
+                size="md"
               >
                 {'Зарегистрироваться'}
               </Button>
@@ -117,10 +131,12 @@ export const GeneralPage = observer(() => {
       {getIsAuth ? (
         <Tabs defaultValue="all-courses" mt={50} variant="pills" color="gray">
           <Tabs.List position="center">
-            <Tabs.Tab value="all-courses">Все курсы</Tabs.Tab>
+            <Tabs.Tab value="all-courses">
+              <Text size={'lg'}>Все курсы</Text>
+            </Tabs.Tab>
 
             <Tabs.Tab value="my-courses" disabled={!myCourses.length}>
-              Мои курсы
+              <Text size={'lg'}>Мои курсы</Text>
             </Tabs.Tab>
           </Tabs.List>
 
@@ -140,7 +156,7 @@ export const GeneralPage = observer(() => {
           </Tabs.Panel>
         </Tabs>
       ) : (
-        <SimpleGrid cols={4} p={'md'} mt={100}>
+        <SimpleGrid cols={3} p={'md'} mt={100}>
           {getCourses.map((course) => (
             <Card data={course} />
           ))}
@@ -150,7 +166,7 @@ export const GeneralPage = observer(() => {
       {getReviews.length ? (
         <Center>
           <SimpleGrid mt={20}>
-            <Title order={2}>Отзывы:</Title>
+            <Title order={1}>Отзывы:</Title>
             {getReviews.map((review) => (
               <ReviewCard data={review} />
             ))}
@@ -185,8 +201,9 @@ export const GeneralPage = observer(() => {
               maxRows={20}
               value={reviewInput}
               onChange={(e) => setReviewInput(e.target.value)}
+              size="md"
             />
-            <Button color={'green'} fullWidth type="submit">
+            <Button color={'green'} fullWidth type="submit" size="md">
               Отправить
             </Button>
           </Flex>

@@ -9,6 +9,7 @@ import {
   updateCourse
 } from '../../../../common/services/course/course'
 import { EditCourseData } from './edit-course.interface'
+import { TEACHERS_SELECT_DATA } from '../../../../common/consts/teachers'
 
 export const EditCourse = observer(() => {
   const {
@@ -34,17 +35,20 @@ export const EditCourse = observer(() => {
         title: titleValue,
         description: descriptionValue,
         videoLink: videoLinkInputValue,
-        id: selectedCourse
+        id: selectedCourse,
+        teacher: selecteTeacher ?? ''
       }).finally(() => {
         setIsLoading(false)
         setCurrentCourse(null)
         setSelectedCourse(null)
+        setSelectedTeacher(null)
       })
       await getAllCourses()
     }
   }
 
   const [currentCourse, setCurrentCourse] = useState<CourseType | null>(null)
+  const [selecteTeacher, setSelectedTeacher] = useState<string | null>(null)
 
   useEffect(() => {
     setCurrentCourse(
@@ -54,6 +58,7 @@ export const EditCourse = observer(() => {
       setTitleValue(currentCourse.title)
       setDescriptionValue(currentCourse.description)
       setVideoLinkInputValue(currentCourse.videoLink)
+      setSelectedTeacher(currentCourse.teacher)
     }
   }, [selectedCourse, getCourses, currentCourse])
 
@@ -67,6 +72,7 @@ export const EditCourse = observer(() => {
         }))}
         value={String(selectedCourse)}
         onChange={(course) => setSelectedCourse(Number(course))}
+        size="md"
       />
       {currentCourse && selectedCourse && (
         <form onSubmit={handleSubmit(handleEditCourse)}>
@@ -79,6 +85,7 @@ export const EditCourse = observer(() => {
               error={errors.title?.message}
               value={titleValue}
               onChange={(e) => setTitleValue(e.target.value)}
+              size="md"
             />
             <Textarea
               label={'описание курса'}
@@ -88,6 +95,7 @@ export const EditCourse = observer(() => {
               onChange={(e) => setDescriptionValue(e.target.value)}
               autosize
               maxRows={25}
+              size="md"
             />
             <TextInput
               label={'ссылка на видео'}
@@ -95,8 +103,16 @@ export const EditCourse = observer(() => {
               error={errors.videoLink?.message}
               value={videoLinkInputValue}
               onChange={(e) => setVideoLinkInputValue(e.target.value)}
+              size="md"
             />
-            <Button fullWidth type="submit" loading={isLoading}>
+            <Select
+              label={'Выберите учителя'}
+              data={TEACHERS_SELECT_DATA}
+              size="md"
+              value={selecteTeacher}
+              onChange={(value) => setSelectedTeacher(value)}
+            />
+            <Button fullWidth type="submit" loading={isLoading} size="md">
               Обновить
             </Button>
           </Flex>

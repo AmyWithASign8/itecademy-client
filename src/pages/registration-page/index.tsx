@@ -9,6 +9,7 @@ import UserStore from '../../common/store/user'
 import { User } from '../../common/store/user/user.interface'
 import { useNavigate } from 'react-router-dom'
 import { RegistrationPageProps } from './registration-page.interface'
+import { setUserToLc } from '../../common/helpers/set-user-to-lc'
 
 export const RegistrationPage = observer(
   ({ onRegistration }: RegistrationPageProps) => {
@@ -32,6 +33,8 @@ export const RegistrationPage = observer(
 
         UserStore.setUser = response as User
         UserStore.setIsAuth = true
+
+        setUserToLc(response as User)
         navigate('/')
       } catch (error) {
         console.error(error)
@@ -47,8 +50,9 @@ export const RegistrationPage = observer(
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <Flex justify={'center'}>
-          <Flex direction={'column'} w={350} gap={'sm'}>
+          <Flex direction={'column'} w={550} gap={'sm'}>
             <TextInput
+              size="md"
               error={errors.email?.message}
               {...register('email', {
                 required: 'email обязателен для заполнения',
@@ -63,6 +67,7 @@ export const RegistrationPage = observer(
               icon={<IconAt />}
             />
             <PasswordInput
+              size="md"
               error={errors.password?.message}
               {...register('password', {
                 required: 'Пароль обязателен для заполнения',
@@ -79,15 +84,17 @@ export const RegistrationPage = observer(
               placeholder="Введите ваш пароль"
               icon={<IconLock size="1rem" />}
             />
-            <Button fullWidth color={'gray'} type="submit" loading={loading}>
+            <Button
+              fullWidth
+              color={'gray'}
+              type="submit"
+              loading={loading}
+              size="md"
+            >
               {'Зарегистрироваться'}
             </Button>
             {errorMessage && (
-              <Alert
-                icon={<IconAlertCircle size="1rem" />}
-                title="Ошибка!"
-                color="red"
-              >
+              <Alert icon={<IconAlertCircle />} title="Ошибка!" color="red">
                 {errorMessage}
               </Alert>
             )}

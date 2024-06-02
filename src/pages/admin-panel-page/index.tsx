@@ -1,4 +1,4 @@
-import { Center, Tabs } from '@mantine/core'
+import { Center, Tabs, Text } from '@mantine/core'
 import { observer } from 'mobx-react-lite'
 import { CreateCourse } from './components/create-course'
 import { EditCourse } from './components/edit-course'
@@ -9,13 +9,33 @@ import { AdministrationReviews } from './components/administration-reviews'
 export const AdminPanelPage = observer(() => {
   return (
     <Center>
-      <Tabs defaultValue="gallery" w={'80%'}>
+      <Tabs defaultValue="gallery" w={'95%'}>
         <Tabs.List position="center" grow>
-          <Tabs.Tab value="gallery">Создать курс</Tabs.Tab>
-          <Tabs.Tab value="messages">Редактировать курс</Tabs.Tab>
-          <Tabs.Tab value="settings">Удалить курс</Tabs.Tab>
-          <Tabs.Tab value="subscribes">Просмотр записей</Tabs.Tab>
-          <Tabs.Tab value="reviews">Администрирование отзывов</Tabs.Tab>
+          <Tabs.Tab value="gallery">
+            <Text size={'md'} fw={'bold'}>
+              Создать курс
+            </Text>
+          </Tabs.Tab>
+          <Tabs.Tab value="messages">
+            <Text size={'md'} fw={'bold'}>
+              Редактировать курс
+            </Text>
+          </Tabs.Tab>
+          <Tabs.Tab value="settings">
+            <Text size={'md'} fw={'bold'}>
+              Удалить курс
+            </Text>
+          </Tabs.Tab>
+          <Tabs.Tab value="subscribes">
+            <Text size={'md'} fw={'bold'}>
+              Просмотр записей
+            </Text>
+          </Tabs.Tab>
+          <Tabs.Tab value="reviews">
+            <Text size={'md'} fw={'bold'}>
+              Администрирование отзывов
+            </Text>
+          </Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="gallery" pt="xs">

@@ -6,7 +6,8 @@ import {
   Flex,
   Card as MantineCard,
   Modal,
-  Text
+  Text,
+  Title
 } from '@mantine/core'
 import {
   getAllCourses,
@@ -19,7 +20,7 @@ import { useState } from 'react'
 import { AuthModal } from '../auth-modal'
 
 export const Card = observer(({ data }: CardProps) => {
-  const { title, description } = data
+  const { title, description, teacher } = data
 
   const { getUser, getIsAuth } = UserStore
 
@@ -66,15 +67,21 @@ export const Card = observer(({ data }: CardProps) => {
         size={'xl'}
       >
         <Flex direction={'column'} gap={'xl'}>
-          <Text fw={'bold'} size={'lg'}>
-            {title}
-          </Text>
+          <Flex justify={'space-between'} align={'center'}>
+            <Title order={2}>{title}</Title>
+            {teacher && teacher.length && (
+              <Text size={'lg'} fw={'bold'}>
+                Преподаватель: {teacher}
+              </Text>
+            )}
+          </Flex>
           <Text
             fw={'bold'}
             style={{
               wordWrap: 'break-word',
               overflow: 'auto'
             }}
+            size={'lg'}
             mah={600}
           >
             {description.length ? description : 'Описание отсутствует'}
@@ -99,6 +106,7 @@ export const Card = observer(({ data }: CardProps) => {
               color="red"
               fullWidth
               onClick={handleUnsubscribe}
+              size="md"
             >
               {'Отписаться'}
             </Button>
@@ -109,6 +117,7 @@ export const Card = observer(({ data }: CardProps) => {
               fullWidth
               // disabled={!getIsAuth}
               onClick={handleSubscribe}
+              size="md"
             >
               {'Записаться'}
             </Button>
@@ -117,9 +126,7 @@ export const Card = observer(({ data }: CardProps) => {
       </Modal>
       <MantineCard shadow="sm" padding="lg" radius="md" withBorder>
         <MantineCard.Section p={'sm'}>
-          <Text fw={'bold'} size={'lg'}>
-            {title}
-          </Text>
+          <Title order={3}>{title}</Title>
         </MantineCard.Section>
         <MantineCard.Section p={'md'}>
           <Text
@@ -127,7 +134,7 @@ export const Card = observer(({ data }: CardProps) => {
             style={{ wordWrap: 'break-word' }}
             lineClamp={4}
             h={100}
-            size={'sm'}
+            size={'lg'}
           >
             {description.length ? description : 'Описание отсутствует'}
           </Text>
@@ -137,6 +144,7 @@ export const Card = observer(({ data }: CardProps) => {
           fullWidth
           // disabled={!getIsAuth}
           onClick={() => setIsOpenFullCardModal(true)}
+          size="md"
         >
           {'Открыть'}
         </Button>

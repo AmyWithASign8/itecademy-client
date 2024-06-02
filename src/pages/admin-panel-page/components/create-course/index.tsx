@@ -1,4 +1,12 @@
-import { Alert, Button, Flex, TextInput, Textarea, Text } from '@mantine/core'
+import {
+  Alert,
+  Button,
+  Flex,
+  TextInput,
+  Textarea,
+  Text,
+  Select
+} from '@mantine/core'
 import { useForm } from 'react-hook-form'
 import { CreateCourseData } from './create-course.interface'
 import {
@@ -8,6 +16,7 @@ import {
 import { useState } from 'react'
 import { IconAlertCircle } from '@tabler/icons-react'
 import { ErrorResponse } from '../../../../common/types/auth.interface'
+import { TEACHERS_SELECT_DATA } from '../../../../common/consts/teachers'
 
 export const CreateCourse = () => {
   const {
@@ -23,15 +32,17 @@ export const CreateCourse = () => {
   const [titleInputValue, setTitleInputValue] = useState('')
   const [descriptionInputValue, setDescriptionInputValue] = useState('')
   const [videoLinkInputValue, setVideoLinkInputValue] = useState('')
+  const [selecteTeacher, setSelectedTeacher] = useState<string | null>(null)
 
   const handleCreateCourse = async (data: CreateCourseData) => {
     setIsLoading(true)
     try {
-      await createCourse(data)
+      await createCourse({ ...data, teacher: selecteTeacher ?? '' })
       setErrorMessage(null)
       setTitleInputValue('')
       setDescriptionInputValue('')
       setVideoLinkInputValue('')
+      setSelectedTeacher(null)
     } catch (error) {
       if ((error as ErrorResponse).response.data.message) {
         setErrorMessage((error as ErrorResponse).response.data.message)
@@ -53,6 +64,7 @@ export const CreateCourse = () => {
           error={errors.title?.message}
           value={titleInputValue}
           onChange={(e) => setTitleInputValue(e.target.value)}
+          size="md"
         />
         <Textarea
           label={'описание курса'}
@@ -62,6 +74,7 @@ export const CreateCourse = () => {
           maxRows={25}
           value={descriptionInputValue}
           onChange={(e) => setDescriptionInputValue(e.target.value)}
+          size="md"
         />
         <TextInput
           label={'ссылка на видео'}
@@ -75,8 +88,16 @@ export const CreateCourse = () => {
           error={errors.videoLink?.message}
           value={videoLinkInputValue}
           onChange={(e) => setVideoLinkInputValue(e.target.value)}
+          size="md"
         />
-        <Button fullWidth type="submit" loading={isLoading}>
+        <Select
+          label={'Выберите учителя'}
+          data={TEACHERS_SELECT_DATA}
+          size="md"
+          value={selecteTeacher}
+          onChange={(value) => setSelectedTeacher(value)}
+        />
+        <Button fullWidth type="submit" loading={isLoading} size="md">
           Создать
         </Button>
         {errorMessage && (

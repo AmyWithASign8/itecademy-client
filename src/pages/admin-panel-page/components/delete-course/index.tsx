@@ -33,6 +33,7 @@ export const DeleteCourse = observer(() => {
         }))}
         value={String(selectedCourse)}
         onChange={(course) => setSelectedCourse(Number(course))}
+        size="md"
       />
       <Button
         color={'red'}
@@ -40,6 +41,7 @@ export const DeleteCourse = observer(() => {
         fullWidth
         loading={isLoading}
         onClick={handleDeleteCourse}
+        size="md"
       >
         Удалить
       </Button>

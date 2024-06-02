@@ -1,4 +1,4 @@
-import { Button, Card, Flex, Text } from '@mantine/core'
+import { Button, Card, Flex, Text, Title } from '@mantine/core'
 import { ReviewCardProps } from './review-card.interface'
 import { IconUserCircle } from '@tabler/icons-react'
 import { observer } from 'mobx-react-lite'
@@ -26,15 +26,23 @@ export const ReviewCard = observer(
           >
             <Flex align={'center'} gap={'lg'}>
               <Flex gap={'xs'} align={'center'}>
-                <IconUserCircle />
-                <Text fw={'bold'}>{data.user.email}</Text>
+                {data.user.role === 'admin' ? (
+                  <Title order={3}>Адмнинистрация</Title>
+                ) : (
+                  <>
+                    <IconUserCircle size={'30px'} />
+                    <Title order={3}>{data.user.email}</Title>
+                  </>
+                )}
               </Flex>
-              <Text>оставил отзыв:</Text>
+              {data.user.role === 'user' && (
+                <Text size={'lg'}>оставил отзыв:</Text>
+              )}
             </Flex>
-            <Text>{data.review}</Text>
+            <Text size={'lg'}>{data.review}</Text>
           </div>
           {administration && (
-            <Button color="red" onClick={handleDeleteReview}>
+            <Button color="red" onClick={handleDeleteReview} size="md">
               Удалить
             </Button>
           )}
