@@ -1,4 +1,13 @@
-import { Button, Flex, Image, Menu, Modal, Text } from '@mantine/core'
+import {
+  Burger,
+  Button,
+  Drawer,
+  Flex,
+  Image,
+  Menu,
+  Modal,
+  Text
+} from '@mantine/core'
 import LogoImg from '../../assets/logo1.png'
 import LogoText from '../../assets/image1.png'
 import { Link, useNavigate } from 'react-router-dom'
@@ -14,13 +23,26 @@ import {
   IconTrash,
   IconUser
 } from '@tabler/icons-react'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { deleteAccount } from '../../common/services/user/user'
+import { useScreenSize } from '../../common/hooks/use-screen-size'
 
 export const Header = observer(() => {
   const { getIsAuth, getUser } = UserStore
 
   const navigate = useNavigate()
+
+  const screenSize = useScreenSize()
+
+  const [isOpenBurgerMenu, setIsOpenBurgerMenu] = useState(false)
+
+  const isAdapted = useMemo(() => {
+    if (screenSize < 1200) {
+      return true
+    }
+
+    return false
+  }, [screenSize])
 
   const [openConfirmModal, setOpenConfirmModal] = useState(false)
 
@@ -80,80 +102,173 @@ export const Header = observer(() => {
             <Image src={LogoText} width={200} />
           </Flex>
         </Link>
-        <Flex gap={'sm'}>
-          <Button
-            color="gray"
-            leftIcon={<IconBrain />}
-            component={Link}
-            to={'/teachers'}
-            size="md"
-          >
-            Преподаватели
-          </Button>
-          <Button
-            color="gray"
-            leftIcon={<IconInfoCircle />}
-            component={Link}
-            to={'/about-us'}
-            size="md"
-          >
-            О нас
-          </Button>
-          {getUser?.role === 'admin' && (
-            <Button
-              color="gray"
-              leftIcon={<IconSettings />}
-              component={Link}
-              to={'/admin-panel'}
-              size="md"
+        {isAdapted ? (
+          <>
+            <Drawer
+              opened={isOpenBurgerMenu}
+              onClose={() => setIsOpenBurgerMenu(false)}
             >
-              Админ. панель
-            </Button>
-          )}
-          {getIsAuth ? (
-            <Menu>
-              <Menu.Target>
+              <Flex gap={'sm'} direction={'column'}>
                 <Button
-                  leftIcon={<IconUser size={20} />}
-                  color={'gray'}
+                  color="gray"
+                  leftIcon={<IconBrain />}
+                  component={Link}
+                  to={'/teachers'}
                   size="md"
                 >
-                  {getUser?.email}
+                  Преподаватели
                 </Button>
-              </Menu.Target>
-              <Menu.Dropdown>
-                <Flex direction={'column'}>
-                  <Menu.Item icon={<IconLogout />} onClick={logout}>
-                    <Text size="md">Выйти</Text>
-                  </Menu.Item>
-                  {getUser?.role === 'user' && (
-                    <Menu.Item
-                      color="red"
-                      icon={<IconTrash />}
-                      onClick={() => setOpenConfirmModal(true)}
+                <Button
+                  color="gray"
+                  leftIcon={<IconInfoCircle />}
+                  component={Link}
+                  to={'/about-us'}
+                  size="md"
+                >
+                  О нас
+                </Button>
+                {getUser?.role === 'admin' && (
+                  <Button
+                    color="gray"
+                    leftIcon={<IconSettings />}
+                    component={Link}
+                    to={'/admin-panel'}
+                    size="md"
+                  >
+                    Админ. панель
+                  </Button>
+                )}
+                {getIsAuth ? (
+                  <Menu>
+                    <Menu.Target>
+                      <Button
+                        leftIcon={<IconUser size={20} />}
+                        color={'gray'}
+                        size="md"
+                      >
+                        {getUser?.email}
+                      </Button>
+                    </Menu.Target>
+                    <Menu.Dropdown>
+                      <Flex direction={'column'}>
+                        <Menu.Item icon={<IconLogout />} onClick={logout}>
+                          <Text size="md">Выйти</Text>
+                        </Menu.Item>
+                        {getUser?.role === 'user' && (
+                          <Menu.Item
+                            color="red"
+                            icon={<IconTrash />}
+                            onClick={() => setOpenConfirmModal(true)}
+                          >
+                            <Text size={'md'}>Удалить аккаунт</Text>
+                          </Menu.Item>
+                        )}
+                      </Flex>
+                    </Menu.Dropdown>
+                  </Menu>
+                ) : (
+                  <>
+                    <Button
+                      component={Link}
+                      to={'/login'}
+                      color="gray"
+                      size="md"
                     >
-                      <Text size={'md'}>Удалить аккаунт</Text>
-                    </Menu.Item>
-                  )}
-                </Flex>
-              </Menu.Dropdown>
-            </Menu>
-          ) : (
-            <>
-              <Button component={Link} to={'/login'} color="gray" size="md">
-                Войти
-              </Button>
+                      Войти
+                    </Button>
+                    <Button
+                      component={Link}
+                      to={'/registration'}
+                      color="gray"
+                      size="md"
+                    >
+                      Зарегистрироваться
+                    </Button>
+                  </>
+                )}
+              </Flex>
+            </Drawer>
+            <Burger
+              opened={isOpenBurgerMenu}
+              onClick={() => setIsOpenBurgerMenu((prev) => !prev)}
+            />
+          </>
+        ) : (
+          <Flex gap={'sm'}>
+            <Button
+              color="gray"
+              leftIcon={<IconBrain />}
+              component={Link}
+              to={'/teachers'}
+              size="md"
+            >
+              Преподаватели
+            </Button>
+            <Button
+              color="gray"
+              leftIcon={<IconInfoCircle />}
+              component={Link}
+              to={'/about-us'}
+              size="md"
+            >
+              О нас
+            </Button>
+            {getUser?.role === 'admin' && (
               <Button
-                component={Link}
-                to={'/registration'}
                 color="gray"
+                leftIcon={<IconSettings />}
+                component={Link}
+                to={'/admin-panel'}
                 size="md"
               >
-                Зарегистрироваться
+                Админ. панель
               </Button>
-            </>
-          )}
-        </Flex>
+            )}
+            {getIsAuth ? (
+              <Menu>
+                <Menu.Target>
+                  <Button
+                    leftIcon={<IconUser size={20} />}
+                    color={'gray'}
+                    size="md"
+                  >
+                    {getUser?.email}
+                  </Button>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Flex direction={'column'}>
+                    <Menu.Item icon={<IconLogout />} onClick={logout}>
+                      <Text size="md">Выйти</Text>
+                    </Menu.Item>
+                    {getUser?.role === 'user' && (
+                      <Menu.Item
+                        color="red"
+                        icon={<IconTrash />}
+                        onClick={() => setOpenConfirmModal(true)}
+                      >
+                        <Text size={'md'}>Удалить аккаунт</Text>
+                      </Menu.Item>
+                    )}
+                  </Flex>
+                </Menu.Dropdown>
+              </Menu>
+            ) : (
+              <>
+                <Button component={Link} to={'/login'} color="gray" size="md">
+                  Войти
+                </Button>
+                <Button
+                  component={Link}
+                  to={'/registration'}
+                  color="gray"
+                  size="md"
+                >
+                  Зарегистрироваться
+                </Button>
+              </>
+            )}
+          </Flex>
+        )}
       </Flex>
     </>
   )

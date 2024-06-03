@@ -141,14 +141,14 @@ export const GeneralPage = observer(() => {
           </Tabs.List>
 
           <Tabs.Panel value="all-courses">
-            <SimpleGrid cols={4} p={'md'}>
+            <SimpleGrid cols={3} p={'md'}>
               {getCourses.map((course) => (
                 <Card data={course} />
               ))}
             </SimpleGrid>
           </Tabs.Panel>
           <Tabs.Panel value="my-courses">
-            <SimpleGrid cols={4} p={'md'}>
+            <SimpleGrid cols={3} p={'md'}>
               {myCourses.map((course) => (
                 <Card data={course} />
               ))}
