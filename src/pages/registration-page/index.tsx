@@ -23,27 +23,38 @@ export const RegistrationPage = observer(
 
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
+    const [errorRepeatPasswordValidation, setErrorRepeatPasswordValidation] =
+      useState(false)
+
+    const [passwordInput, setPasswordInput] = useState('')
+    const [repeatPasswordInput, setRepeatPasswordInput] = useState('')
+
     const navigate = useNavigate()
 
     const onSubmit: SubmitHandler<AuthDataType> = async (data) => {
-      setLoading(true)
-      setErrorMessage('')
-      try {
-        const response = await registration(data)
+      if (passwordInput !== repeatPasswordInput) {
+        setErrorRepeatPasswordValidation(true)
+      } else {
+        setErrorRepeatPasswordValidation(false)
+        setLoading(true)
+        setErrorMessage('')
+        try {
+          const response = await registration(data)
 
-        UserStore.setUser = response as User
-        UserStore.setIsAuth = true
+          UserStore.setUser = response as User
+          UserStore.setIsAuth = true
 
-        setUserToLc(response as User)
-        navigate('/')
-      } catch (error) {
-        console.error(error)
-        if ((error as ErrorResponse).response.data.message) {
-          setErrorMessage((error as ErrorResponse).response.data.message)
+          setUserToLc(response as User)
+          navigate('/')
+        } catch (error) {
+          console.error(error)
+          if ((error as ErrorResponse).response.data.message) {
+            setErrorMessage((error as ErrorResponse).response.data.message)
+          }
+        } finally {
+          setLoading(false)
+          onRegistration?.()
         }
-      } finally {
-        setLoading(false)
-        onRegistration?.()
       }
     }
 
@@ -67,6 +78,7 @@ export const RegistrationPage = observer(
               icon={<IconAt />}
             />
             <PasswordInput
+              label={'пароль'}
               size="md"
               error={errors.password?.message}
               {...register('password', {
@@ -83,6 +95,17 @@ export const RegistrationPage = observer(
               })}
               placeholder="Введите ваш пароль"
               icon={<IconLock size="1rem" />}
+              value={passwordInput}
+              onChange={(e) => setPasswordInput(e.target.value)}
+            />
+            <PasswordInput
+              label={'повтор пароля'}
+              size="md"
+              error={errors.password?.message}
+              placeholder="Повторите ваш пароль"
+              icon={<IconLock size="1rem" />}
+              value={repeatPasswordInput}
+              onChange={(e) => setRepeatPasswordInput(e.target.value)}
             />
             <Button
               fullWidth
@@ -93,6 +116,11 @@ export const RegistrationPage = observer(
             >
               {'Зарегистрироваться'}
             </Button>
+            {errorRepeatPasswordValidation && (
+              <Alert icon={<IconAlertCircle />} title="Ошибка!" color="red">
+                Пароли должны совпадать!
+              </Alert>
+            )}
             {errorMessage && (
               <Alert icon={<IconAlertCircle />} title="Ошибка!" color="red">
                 {errorMessage}

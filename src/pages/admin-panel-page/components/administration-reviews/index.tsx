@@ -11,7 +11,7 @@ export const AdministrationReviews = observer(() => {
       <SimpleGrid>
         {getReviews.length ? (
           getReviews.map((review) => (
-            <ReviewCard data={review} administration />
+            <ReviewCard data={review} administration key={review.id} />
           ))
         ) : (
           <Text>Нет ни одного отзыва</Text>

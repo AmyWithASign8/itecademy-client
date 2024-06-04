@@ -65,6 +65,7 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
             icon={<IconAt />}
           />
           <PasswordInput
+            label={'пароль'}
             size="md"
             error={errors.password?.message}
             {...register('password', {

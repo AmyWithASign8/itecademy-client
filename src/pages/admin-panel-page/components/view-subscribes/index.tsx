@@ -53,14 +53,20 @@ export const ViewSubscribes = observer(() => {
                   setIsOpenCollapse((prev) => (prev !== id ? id : null))
                 }
                 size="lg"
+                key={id}
               >
                 {title}
               </Button>
 
-              <Collapse in={isOpenCollapse === id}>
+              <Collapse in={isOpenCollapse === id} key={id}>
                 <SimpleGrid cols={2}>
                   {userServices.map((data) => (
-                    <Box bg={'indigo'} p={3} style={{ borderRadius: 10 }}>
+                    <Box
+                      bg={'indigo'}
+                      p={3}
+                      style={{ borderRadius: 10 }}
+                      key={data.id}
+                    >
                       <Flex align={'center'} justify={'center'} gap={4}>
                         <IconUser />
                         <Text size={'lg'}>

@@ -160,7 +160,7 @@ export const TeachersPage = () => {
     <Center>
       <SimpleGrid w={'70%'} spacing={'xl'}>
         {data.map((teacher) => (
-          <TeacherCard data={teacher} />
+          <TeacherCard data={teacher} key={teacher.fullName} />
         ))}
       </SimpleGrid>
     </Center>

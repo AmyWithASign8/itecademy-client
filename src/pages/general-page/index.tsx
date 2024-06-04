@@ -143,14 +143,14 @@ export const GeneralPage = observer(() => {
           <Tabs.Panel value="all-courses">
             <SimpleGrid cols={3} p={'md'}>
               {getCourses.map((course) => (
-                <Card data={course} />
+                <Card data={course} key={course.id} />
               ))}
             </SimpleGrid>
           </Tabs.Panel>
           <Tabs.Panel value="my-courses">
             <SimpleGrid cols={3} p={'md'}>
               {myCourses.map((course) => (
-                <Card data={course} />
+                <Card data={course} key={course.id} />
               ))}
             </SimpleGrid>
           </Tabs.Panel>
@@ -158,7 +158,7 @@ export const GeneralPage = observer(() => {
       ) : (
         <SimpleGrid cols={3} p={'md'} mt={100}>
           {getCourses.map((course) => (
-            <Card data={course} />
+            <Card data={course} key={course.id} />
           ))}
         </SimpleGrid>
       )}
@@ -168,7 +168,7 @@ export const GeneralPage = observer(() => {
           <SimpleGrid mt={20}>
             <Title order={1}>Отзывы:</Title>
             {getReviews.map((review) => (
-              <ReviewCard data={review} />
+              <ReviewCard data={review} key={review.id} />
             ))}
           </SimpleGrid>
         </Center>
