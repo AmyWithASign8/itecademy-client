@@ -1,4 +1,11 @@
-import { Alert, Button, Flex, PasswordInput, TextInput } from '@mantine/core'
+import {
+  Alert,
+  Button,
+  Flex,
+  PasswordInput,
+  Text,
+  TextInput
+} from '@mantine/core'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { AuthDataType, ErrorResponse } from '../../common/types/auth.interface'
 import { IconAlertCircle, IconAt, IconLock } from '@tabler/icons-react'
@@ -98,7 +105,7 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
               title="Ошибка!"
               color="red"
             >
-              {'Неправильный логин или пароль'}
+              <Text size={'lg'}>{'Неправильный логин или пароль'}</Text>
             </Alert>
           )}
         </Flex>

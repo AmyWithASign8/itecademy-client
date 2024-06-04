@@ -1,4 +1,11 @@
-import { Alert, Button, Flex, PasswordInput, TextInput } from '@mantine/core'
+import {
+  Alert,
+  Button,
+  Flex,
+  PasswordInput,
+  Text,
+  TextInput
+} from '@mantine/core'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { AuthDataType, ErrorResponse } from '../../common/types/auth.interface'
 import { IconAlertCircle, IconAt, IconLock } from '@tabler/icons-react'
@@ -118,12 +125,12 @@ export const RegistrationPage = observer(
             </Button>
             {errorRepeatPasswordValidation && (
               <Alert icon={<IconAlertCircle />} title="Ошибка!" color="red">
-                Пароли должны совпадать!
+                <Text size={'lg'}>Пароли должны совпадать!</Text>
               </Alert>
             )}
             {errorMessage && (
               <Alert icon={<IconAlertCircle />} title="Ошибка!" color="red">
-                {errorMessage}
+                <Text size={'lg'}>{errorMessage}</Text>
               </Alert>
             )}
           </Flex>
